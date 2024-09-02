@@ -6,7 +6,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 const pjson = require('./package.json');
 // var outputPath = path.resolve(__dirname, '../project/noodl_modules/' + pjson.name);
-var outputPath = path.resolve('/Users/antoine/Documents/IKKI/noodl-apps/to-do-test', 'noodl_modules/' + pjson.name);
+var outputPath = path.resolve('/Users/antoine/Documents/IKKI/noodl-apps/Crypto', 'noodl_modules/' + pjson.name);
 
 function stripStartDirectories(targetPath, numDirs) {
     const p = targetPath.split('/');

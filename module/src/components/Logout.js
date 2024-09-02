@@ -5,16 +5,15 @@ const Logout = ({ children, onClick }) => {
 
     const auth = useAuth();
     return (
-        <div style={{ border: 'none' }} onClick={() => {
-            auth.revokeTokens();
-            void auth.removeUser()
+        <div style={{ border: 'none', width: '100%', height: '100%' }} onClick={() => {
+            auth.signoutRedirect()
             onClick()
         }}>{children}</div>
     );
 };
 
 const LogoutNode = Noodl.defineReactNode({
-    name: "Logout",
+    name: "Logout action",
     category: "Tutorial",
     getReactComponent() {
         return Logout;

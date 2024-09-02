@@ -4,7 +4,7 @@ const { AuthProvider, useAuth } = require("react-oidc-context");
 const jsonpath = require("jsonpath");
 const { jwtDecode } = require('jwt-decode');
 
-function Authenticated({
+function AuthenticatedGuard({
     children,
     role_claim_json_path = "roles",
     required_roles = "",
@@ -90,14 +90,10 @@ function Authenticated({
 
 const AuthenticatedProvider = ({
     children,
-    currentUser = () => { },
-    hasResourceAccess = () => { },
     authority = "http://localhost:9000/realms/test",
     client_id = "test",
     redirect_uri = "http://localhost:8574/test",
-    audience = "test",
-    role_claim_json_path = "roles",
-    required_roles = "",
+
 }) => {
     const onSigninCallback = (_user) => {
         window.history.replaceState({}, document.title, window.location.pathname);
@@ -110,21 +106,15 @@ const AuthenticatedProvider = ({
             redirect_uri={redirect_uri}
             onSigninCallback={onSigninCallback}
         >
-            <Authenticated
-                audience={audience}
-                role_claim_json_path={role_claim_json_path}
-                required_roles={required_roles}
-                currentUser={currentUser}
-                hasResourceAccess={hasResourceAccess}
-            >
-                {children}
-            </Authenticated>
+
+            {children}
+
         </AuthProvider>
     );
 };
 
-const AuthenticatedNode = Noodl.defineReactNode({
-    name: "Authenticated",
+const AuthenticatedProviderNode = Noodl.defineReactNode({
+    name: "Oidc Authentication Provider",
     category: "Tutorial",
     getReactComponent() {
         return AuthenticatedProvider;
@@ -138,7 +128,7 @@ const AuthenticatedNode = Noodl.defineReactNode({
         client_id: { type: "string", default: "test", displayName: "Cliend ID" },
         redirect_uri: {
             type: "string",
-            default: "http://localhost:8574/test",
+            default: "http://localhost:8574",
             displayName: "Redirect URI",
         },
         audience: { type: "string", default: "test", displayName: "Audience" },
@@ -159,4 +149,4 @@ const AuthenticatedNode = Noodl.defineReactNode({
     },
 });
 
-module.exports = { AuthenticatedNode };
+module.exports = { AuthenticatedProviderNode };
